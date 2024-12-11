@@ -17,8 +17,11 @@ Route::middleware('auth')->group(function () {
 
 Route::controller(\App\Http\Controllers\PeticioneController::class)->group(function () {
     Route::get('peticiones', 'index')->name('peticiones.index');
+    Route::get('peticiones/add', 'create')->name('peticiones.add');
+    Route::post('peticiones', 'store')->name('peticiones.store');
     Route::get('peticiones/{id}', 'show')->name('peticiones.show');
     Route::get('mispeticiones', 'listMine')->name('peticiones.mine');
+
 });
 
 require __DIR__.'/auth.php';

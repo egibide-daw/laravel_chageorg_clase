@@ -28,7 +28,7 @@
                     <a class="nav-link fs-4 m-2" href="{{route('peticiones.index')}}">Peticiones</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fs-4 m-2" href="">Inicia una petición</a>
+                    <a class="nav-link fs-4 m-2" href="{{route('peticiones.add')}}">Inicia una petición</a>
                 </li>
                 <?php if (Auth::check() ){?>
                 <li class="nav-item">

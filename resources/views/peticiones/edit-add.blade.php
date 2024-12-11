@@ -48,7 +48,7 @@
                                     <span class="required " title="obligatorio"
                                         data-aura-rendered-by="305:343;a">*</span>
                                 </label>
-                                <select name="category" class="form-select form-select-sm">
+                                <select name="categoria" class="form-select form-select-sm">
                                     <option value="1">Sanidad</option>
                                     <option value="2">Medio ambiente</option>
                                     <option value="3">Educación</option>
