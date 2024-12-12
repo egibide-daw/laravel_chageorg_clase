@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Categoria;
+use App\Models\File;
 use App\Models\Peticione;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Routing\Controller;
 
 class PeticioneController extends Controller
 {
@@ -14,7 +16,7 @@ class PeticioneController extends Controller
         //$this->middleware('auth')->except(['index', 'show']);
     }
     public function index(Request $request){
-        $peticiones = Peticione::where('estado','aceptada')->get();
+        $peticiones = Peticione::where('estado','pendiente')->paginate(5);
         return view('peticiones.index', compact('peticiones'));
     }
     public function listMine(Request $request){
@@ -60,7 +62,7 @@ class PeticioneController extends Controller
             if ($res)
             {
                 $res_file = $this->fileUpload($request, $peticion->id);
-                if ($res_file)
+                if ($res_file == 0)
                 {
                     return redirect('/mispeticiones');
                 }
@@ -71,4 +73,46 @@ class PeticioneController extends Controller
             return back()->withError($exception->getMessage())->withInput();
         }
     }
+
+    public function fileUpload(Request $request, $peticione_id = null) : int|File{
+        $file = $request->file('file');
+        $fileModel = new File();
+        $fileModel->peticione_id = $peticione_id;
+        if ($request->hasFile('file')) {
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $filePath = $file->storeAs('images/peticiones', $filename, 'local');
+            $fileModel->name = $filename;
+            $fileModel->file_path = $filePath;
+            $res = $fileModel->save();
+            if($res) {
+                return 0;
+            }else{
+                return 1;
+            }
+        }
+        return 1;
+    }
+
+    public function firmar(Request $request, $id)
+    {
+        try {
+            $peticion = Peticione::findOrFail($id);
+            $user = Auth::user();
+            $firmas = $peticion->firmas??[];
+            foreach ($firmas as $firma) {
+                if ($firma->id == $user->id) {
+                    return back()->withError( "Ya has firmado esta petición")->withInput();
+}
+            }
+            $user_id = [$user->id];
+            $peticion->firmas()->attach($user_id);
+            $peticion->firmantes = $peticion->firmantes + 1;
+            $peticion->save();
+        }catch (\Exception $exception){
+            return back()->withError( $exception->getMessage())->withInput();
+        }
+        return redirect()->back();
+    }
+
+
 }

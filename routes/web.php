@@ -21,7 +21,11 @@ Route::controller(\App\Http\Controllers\PeticioneController::class)->group(funct
     Route::post('peticiones', 'store')->name('peticiones.store');
     Route::get('peticiones/{id}', 'show')->name('peticiones.show');
     Route::get('mispeticiones', 'listMine')->name('peticiones.mine');
+    Route::post('peticiones/firmar/{id}', 'firmar')->name('peticiones.firmar');
+});
 
+Route::controller(\App\Http\Controllers\UsersController::class)->group(function () {
+    Route::get('misfirmas', 'peticionesfirmadas')->name('users.firmas');
 });
 
 require __DIR__.'/auth.php';

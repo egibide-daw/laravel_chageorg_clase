@@ -11,7 +11,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
-                                <img class="card-img-top img-responsive " src="">
+                                <img class="card-img-top img-responsive " src="{{asset('storage/' .$peticion->files()->first()->file_path)}}">
                             </div>
                             <div class="col-md-6 col-lg-6 col-xl-6">
                                 <h4 class="card-title">{{$peticion->titulo}}</h4>
@@ -21,7 +21,7 @@
                                 <div class="corgi-1aa4dmu">
                                     <a href=""
                                        class="btn btn-success" onclick="event.preventDefault(); document.getElementById('firma-id').submit();">Firma esta petición</a>
-                                    <form id="firma-id" action="" method="POST" style="display: none;">
+                                    <form id="firma-id" action="{{route('peticiones.firmar',$peticion->id)}}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
                                 </div>

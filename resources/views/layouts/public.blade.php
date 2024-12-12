@@ -35,7 +35,7 @@
                     <a class="nav-link fs-4 m-2" href="{{route('peticiones.mine')}}">Mis peticiones</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fs-4 m-2" href="">Mis firmas</a>
+                    <a class="nav-link fs-4 m-2" href="{{route('users.firmas')}}">Mis firmas</a>
                 </li>
                 <?php }?>
                 <?php if (Auth::check() && Auth::user()->role_id==2){ ?>

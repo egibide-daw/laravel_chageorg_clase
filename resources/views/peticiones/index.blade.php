@@ -16,7 +16,7 @@
                                 <div class="row">
                                     <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                                         <img class="card-img-top img-responsive "
-                                             src="">
+                                             src="{{asset('storage/' .$peticion->files()->first()->file_path)}}">
                                     </div>
                                     <div class="col-md-6 col-lg-6 col-xl-6">
                                         <h4 class="card-title">{{$peticion->titulo}}</h4>
@@ -35,7 +35,7 @@
                 </div>
             @endforeach
         </section>
-
+            {!! $peticiones->links() !!}
 
     </div>
 
