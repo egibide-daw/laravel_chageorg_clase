@@ -13,7 +13,7 @@ use Illuminate\Routing\Controller;
 class PeticioneController extends Controller
 {
     public function __construct(){
-        //$this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(['index', 'show']);
     }
     public function index(Request $request){
         $peticiones = Peticione::where('estado','pendiente')->paginate(5);
@@ -21,7 +21,7 @@ class PeticioneController extends Controller
     }
     public function listMine(Request $request){
         $user= Auth::user();
-        $peticiones = Peticione::where('user_id',$user->id)->get();
+        $peticiones = Peticione::where('user_id',$user->id)->paginate(5);
         return view('peticiones.index', compact('peticiones'));
     }
     public function show(Request $request, $id){
@@ -102,7 +102,7 @@ class PeticioneController extends Controller
             foreach ($firmas as $firma) {
                 if ($firma->id == $user->id) {
                     return back()->withError( "Ya has firmado esta petición")->withInput();
-}
+                }
             }
             $user_id = [$user->id];
             $peticion->firmas()->attach($user_id);
